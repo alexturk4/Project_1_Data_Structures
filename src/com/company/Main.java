@@ -25,6 +25,28 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.print("hello");
+        int list[] = {2,42,1,7,23,3,0};
+        printArray(list);
+        insertionSort(list);
+    }
+    private static void printArray(int[] list) {
+        for(int i:list){
+            System.out.print(i + " ");
+        }
+        System.out.println();
+    }
+
+    private static void insertionSort(int[] list) {
+        for (int i = 1; i < list.length; i++) {
+            int currentElement = list[i];
+            int k;
+
+            for (k = i - 1; k >= 0 && list[k] > currentElement; k--) {
+                list[k + 1] = list[k];
+            }
+            // Insert the current element into list[k + 1]
+            list[k + 1] = currentElement;
+        }
+        printArray(list);
     }
 }
