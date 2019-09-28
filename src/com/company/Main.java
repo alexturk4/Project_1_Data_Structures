@@ -22,19 +22,42 @@
  */
 package com.company;
 
+import java.util.Random;
+
 public class Main {
 
     public static void main(String[] args) {
-        int list[] = {2,42,1,7,23,3,0};
+        int list[] = createArray();
         printArray(list);
         insertionSort(list);
-        selectionSort(list);
+        System.out.println();
+
+        int list2[] = createArray();
+        printArray(list2);
+        selectionSort(list2);
+        System.out.println();
+
+        int list3[] = createArray();
+        printArray(list3);
+        quickSort(list3);
     }
+
+
     private static void printArray(int[] list) {
         for(int i:list){
             System.out.print(i + " ");
         }
         System.out.println();
+    }
+
+    private static int[] createArray(){
+        Random rand = new Random();
+        int[] list = new int[20];
+        // Generate random integers in range 0 to 999
+        for (int i=0; i<20; i++) {
+            list[i] = rand.nextInt(1000);
+        }
+        return list;
     }
 
     private static void insertionSort(int[] list) {
@@ -71,4 +94,54 @@ public class Main {
              }
          printArray(list);
          }
+
+    public static void quickSort(int[] list) {
+        quickSort(list, 0, list.length - 1);
+        printArray(list);
+    }
+
+    private static void quickSort(int[] list, int first, int last) {
+        if (last > first) {
+            int pivotIndex = partition(list, first, last);
+            quickSort(list, first, pivotIndex - 1);
+            quickSort(list, pivotIndex + 1, last);
+        }
+    }
+
+    /** Partition the array list[first..last] */
+    private static int partition(int[] list, int first, int last) {
+        int pivot = list[first]; // Choose the first element as the pivot
+        int low = first + 1; // Index for forward search
+        int high = last; // Index for backward search
+
+        while (high > low) {
+            // Search forward from left
+            while (low <= high && list[low] <= pivot)
+                low++;
+
+            // Search backward from right
+            while (low <= high && list[high] > pivot)
+                high--;
+
+            // Swap two elements in the list
+            if (high > low) {
+                int temp = list[high];
+                list[high] = list[low];
+                list[low] = temp;
+            }
+        }
+
+        while (high > first && list[high] >= pivot)
+            high--;
+
+        // Swap pivot with list[high]
+        if (pivot > list[high]) {
+            list[first] = list[high];
+            list[high] = pivot;
+            return high;
+        }
+        else {
+            return first;
+        }
+    }
 }
