@@ -23,11 +23,12 @@
 package com.company;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        int list[] = createArray();
+        /*int list[] = createArray();
         printArray(list);
         insertionSort(list);
         System.out.println();
@@ -49,9 +50,43 @@ public class Main {
 
         int list5[] = createArray();
         printArray(list5);
-        mergeSort(list4);
-    }
+        mergeSort(list4);*/
+        Scanner in = new Scanner(System.in);
 
+        while (true) {
+            System.out.println("Please enter an array size:");
+            int size = Integer.parseInt(in.nextLine());
+            int []numberList = createArray(size); // this will create an array of random numbers
+
+            System.out.println();
+            System.out.println("Please select an array type to sort:");
+            System.out.println("1. Random");
+            System.out.println("2. Ascending");
+            System.out.println("3. Descending");
+            System.out.println("4. 80% Sorted (20% Unsorted)");
+
+            int arrayType = Integer.parseInt(in.nextLine());
+            printArray(numberList);
+            // random array
+            if (arrayType == 1){
+
+            }
+            // ascending array
+            else if (arrayType == 2) {
+                numberList = insertionSort(numberList);
+                printArray(numberList);
+            }
+            // descending array
+            else if (arrayType == 3) {
+                numberList = descendingInsertionSort(numberList);
+                printArray(numberList);
+            }
+            // 80% sorted array
+            else if (arrayType == 4) {
+
+            }
+        }
+    }
 
     private static void printArray(int[] list) {
         for (int i : list) {
@@ -60,17 +95,17 @@ public class Main {
         System.out.println();
     }
 
-    private static int[] createArray() {
+    private static int[] createArray(int size) {
         Random rand = new Random();
-        int[] list = new int[20];
+        int[] list = new int[size];
         // Generate random integers in range 0 to 999
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < size; i++) {
             list[i] = rand.nextInt(1000);
         }
         return list;
     }
 
-    private static void insertionSort(int[] list) {
+    private static int[] insertionSort(int[] list) {
         for (int i = 1; i < list.length; i++) {
             int currentElement = list[i];
             int k;
@@ -81,7 +116,22 @@ public class Main {
             // Insert the current element into list[k + 1]
             list[k + 1] = currentElement;
         }
-        printArray(list);
+        //printArray(list);
+        return list;
+    }
+
+    private static int[]  descendingInsertionSort(int[] list) {
+        for (int i = 1; i < list.length; i++) {
+            int currentElement = list[i];
+            int k;
+
+            for (k = i - 1; k >= 0 && list[k] < currentElement; k--) {
+                list[k + 1] = list[k];
+            }
+            // Insert the current element into list[k + 1]
+            list[k + 1] = currentElement;
+        }
+        return list;
     }
 
     private static void selectionSort(int[] list) {
