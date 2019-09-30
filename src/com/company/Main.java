@@ -24,6 +24,8 @@ package com.company;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
@@ -86,8 +88,49 @@ public class Main {
                 numberList = partialInsertionSort(numberList,.8);
                 printArray(numberList);
             }
+
+            System.out.println("Please select a sorting algorithm");
+            System.out.println("1. Insertion Sort");
+            System.out.println("2. Selection Sort");
+            System.out.println("3. Quick Sort");
+            System.out.println("4. Merge Sort");
+            System.out.println("5. Heap Sort");
+            System.out.println("6. Radix Sort");
+
+            performSort(Integer.parseInt(in.nextLine()), numberList);
+
+
         }
     }
+
+    private static void performSort(int sortType, int[] numberList){
+        // insertion sort
+        if (sortType == 1){
+
+        }
+        // selection sort
+        else if (sortType == 2){
+
+        }
+        // quick sort
+        else if (sortType == 3){
+
+        }
+        // merge sort
+        else if (sortType == 4){
+
+        }
+        // heap sort
+        else if (sortType == 5){
+
+        }
+        // radix sort
+        else if (sortType == 6){
+            numberList = radixSort(numberList, numberList.length);
+        }
+        printArray(numberList);
+    }
+
 
     private static void printArray(int[] list) {
         for (int i : list) {
@@ -314,6 +357,63 @@ public class Main {
 
         while (current2 < list2.length)
             temp[current3++] = list2[current2++];
+    }
+
+    // A utility function to get maximum value in arr[]
+    static int getMax(int []arr, int n)
+    {
+        int mx = arr[0];
+        for (int i = 1; i < n; i++)
+            if (arr[i] > mx)
+                mx = arr[i];
+        return mx;
+    }
+
+    // A function to do counting sort of arr[] according to
+    // the digit represented by exp.
+    static void countSort(int []arr, int n, int exp)
+    {
+        int output[] = new int[n]; // output array
+        int i;
+        int count[] = new int[10];
+        Arrays.fill(count,0);
+
+        // Store count of occurrences in count[]
+        for (i = 0; i < n; i++)
+            count[ (arr[i]/exp)%10 ]++;
+
+        // Change count[i] so that count[i] now contains
+        // actual position of this digit in output[]
+        for (i = 1; i < 10; i++)
+            count[i] += count[i - 1];
+
+        // Build the output array
+        for (i = n - 1; i >= 0; i--)
+        {
+            output[count[ (arr[i]/exp)%10 ] - 1] = arr[i];
+            count[ (arr[i]/exp)%10 ]--;
+        }
+
+        // Copy the output array to arr[], so that arr[] now
+        // contains sorted numbers according to curent digit
+        for (i = 0; i < n; i++)
+            arr[i] = output[i];
+    }
+
+    // The main function to that sorts arr[] of size n using
+    // Radix Sort
+    private static int[] radixSort(int []arr, int n)
+    {
+        // Find the maximum number to know number of digits
+        int m = getMax(arr, n);
+
+        // Do counting sort for every digit. Note that instead
+        // of passing digit number, exp is passed. exp is 10^i
+        // where i is current digit number
+        for (int exp = 1; m/exp > 0; exp *= 10)
+            countSort(arr, n, exp);
+
+        return arr;
     }
 
 }
