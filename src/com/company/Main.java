@@ -103,6 +103,7 @@ public class Main {
         }
     }
 
+
     private static void performSort(int sortType, int[] numberList){
         // insertion sort
         if (sortType == 1){
