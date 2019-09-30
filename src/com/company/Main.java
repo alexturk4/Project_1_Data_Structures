@@ -69,7 +69,7 @@ public class Main {
             printArray(numberList);
             // random array
             if (arrayType == 1){
-
+                printArray(numberList);
             }
             // ascending array
             else if (arrayType == 2) {
@@ -83,7 +83,8 @@ public class Main {
             }
             // 80% sorted array
             else if (arrayType == 4) {
-
+                numberList = partialInsertionSort(numberList,.8);
+                printArray(numberList);
             }
         }
     }
@@ -120,6 +121,7 @@ public class Main {
         return list;
     }
 
+    // this performs insertion sort but in descending order
     private static int[]  descendingInsertionSort(int[] list) {
         for (int i = 1; i < list.length; i++) {
             int currentElement = list[i];
@@ -133,6 +135,23 @@ public class Main {
         }
         return list;
     }
+
+    // this will sort x-proportion of the array and then leave the rest unsorted
+    // where x is a decimal value from 0 to 1
+    private static int[]  partialInsertionSort(int[] list, double x) {
+        for (int i = 1; i < java.lang.Math.floor(list.length * x); i++) {
+            int currentElement = list[i];
+            int k;
+
+            for (k = i - 1; k >= 0 && list[k] > currentElement; k--) {
+                list[k + 1] = list[k];
+            }
+            // Insert the current element into list[k + 1]
+            list[k + 1] = currentElement;
+        }
+        return list;
+    }
+
 
     private static void selectionSort(int[] list) {
         for (int i = 0; i < list.length - 1; i++) {
