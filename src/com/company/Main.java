@@ -30,29 +30,6 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        /*int list[] = createArray();
-        printArray(list);
-        insertionSort(list);
-        System.out.println();
-
-        int list2[] = createArray();
-        printArray(list2);
-        selectionSort(list2);
-        System.out.println();
-
-        int list3[] = createArray();
-        printArray(list3);
-        quickSort(list3);
-        System.out.println();
-
-        int list4[] = createArray();
-        printArray(list4);
-        heapSort(list4);
-        System.out.println();
-
-        int list5[] = createArray();
-        printArray(list5);
-        mergeSort(list4);*/
         Scanner in = new Scanner(System.in);
 
         while (true) {
@@ -66,28 +43,11 @@ public class Main {
             System.out.println("2. Ascending");
             System.out.println("3. Descending");
             System.out.println("4. 80% Sorted (20% Unsorted)");
+            System.out.println("5. All 4 array types and 6 sorting algorithms");
 
             int arrayType = Integer.parseInt(in.nextLine());
-            printArray(numberList);
-            // random array
-            if (arrayType == 1){
-                printArray(numberList);
-            }
-            // ascending array
-            else if (arrayType == 2) {
-                numberList = insertionSort(numberList);
-                printArray(numberList);
-            }
-            // descending array
-            else if (arrayType == 3) {
-                numberList = descendingInsertionSort(numberList);
-                printArray(numberList);
-            }
-            // 80% sorted array
-            else if (arrayType == 4) {
-                numberList = partialInsertionSort(numberList,.8);
-                printArray(numberList);
-            }
+           // printArray(numberList);
+            numberList = createArrays(arrayType, numberList);
 
             System.out.println("Please select a sorting algorithm");
             System.out.println("1. Insertion Sort");
@@ -99,37 +59,55 @@ public class Main {
 
             performSort(Integer.parseInt(in.nextLine()), numberList);
 
-
         }
     }
-
+    private static int[] createArrays(int arrayType, int [] numberList){
+        // random array
+        if (arrayType == 1){
+            // do nothing, the numberlist is already random
+        }
+        // ascending array
+        else if (arrayType == 2) {
+            numberList = insertionSort(numberList);
+        }
+        // descending array
+        else if (arrayType == 3) {
+            numberList = descendingInsertionSort(numberList);
+        }
+        // 80% sorted array
+        else if (arrayType == 4) {
+            numberList = partialInsertionSort(numberList,.8);
+        }
+       // printArray(numberList);
+        return numberList;
+    }
 
     private static void performSort(int sortType, int[] numberList){
         // insertion sort
         if (sortType == 1){
-
+            numberList = insertionSort(numberList);
         }
         // selection sort
         else if (sortType == 2){
-
+            selectionSort(numberList);
         }
         // quick sort
         else if (sortType == 3){
-
+            quickSort(numberList);
         }
         // merge sort
         else if (sortType == 4){
-
+            mergeSort(numberList);
         }
         // heap sort
         else if (sortType == 5){
-
+            heapSort(numberList);
         }
         // radix sort
         else if (sortType == 6){
-            numberList = radixSort(numberList, numberList.length);
+            radixSort(numberList, numberList.length);
         }
-        printArray(numberList);
+       // printArray(numberList);
     }
 
 
@@ -139,6 +117,14 @@ public class Main {
         }
         System.out.println();
     }
+
+    private static void printResults(long comparisons, long swaps, long runtime){
+        System.out.println("Comparisons: " + comparisons);
+        System.out.println("Swaps: " + swaps);
+        System.out.printf("Runtime: %.10f sec%n", (runtime / 1e9));
+
+    }
+
 
     private static int[] createArray(int size) {
         Random rand = new Random();
@@ -151,17 +137,28 @@ public class Main {
     }
 
     private static int[] insertionSort(int[] list) {
+        long comparisons = 0, swaps = 0;
+
+        long startTime = System.nanoTime();
+
         for (int i = 1; i < list.length; i++) {
             int currentElement = list[i];
             int k;
 
             for (k = i - 1; k >= 0 && list[k] > currentElement; k--) {
                 list[k + 1] = list[k];
+                swaps++;
+                comparisons++;
             }
             // Insert the current element into list[k + 1]
             list[k + 1] = currentElement;
+            comparisons++;
         }
         //printArray(list);
+        long endTime = System.nanoTime();
+
+        System.out.println("Results for Insertion Sort");
+        printResults(comparisons, swaps, (endTime-startTime));
         return list;
     }
 
