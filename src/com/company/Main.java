@@ -40,21 +40,26 @@ public class Main {
         int list3[] = createArray();
         printArray(list3);
         quickSort(list3);
+        System.out.println();
+
+        int list4[] = createArray();
+        printArray(list4);
+        heapSort(list4);
     }
 
 
     private static void printArray(int[] list) {
-        for(int i:list){
+        for (int i : list) {
             System.out.print(i + " ");
         }
         System.out.println();
     }
 
-    private static int[] createArray(){
+    private static int[] createArray() {
         Random rand = new Random();
         int[] list = new int[20];
         // Generate random integers in range 0 to 999
-        for (int i=0; i<20; i++) {
+        for (int i = 0; i < 20; i++) {
             list[i] = rand.nextInt(1000);
         }
         return list;
@@ -75,25 +80,25 @@ public class Main {
     }
 
     private static void selectionSort(int[] list) {
-         for (int i = 0; i < list.length - 1; i++) {
-             // Find the minimum in the list[i..list.length-1]
-             int currentMin = list[i];
-             int currentMinIndex = i;
-             for (int j = i + 1; j < list.length; j++) {
-                 if (currentMin > list[j]) {
-                     currentMin = list[j];
-                     currentMinIndex = j;
-                     }
-                 }
+        for (int i = 0; i < list.length - 1; i++) {
+            // Find the minimum in the list[i..list.length-1]
+            int currentMin = list[i];
+            int currentMinIndex = i;
+            for (int j = i + 1; j < list.length; j++) {
+                if (currentMin > list[j]) {
+                    currentMin = list[j];
+                    currentMinIndex = j;
+                }
+            }
 
-             // Swap list[i] with list[currentMinIndex] if necessary
+            // Swap list[i] with list[currentMinIndex] if necessary
             if (currentMinIndex != i) {
-                 list[currentMinIndex] = list[i];
-                 list[i] = currentMin;
-                 }
-             }
-         printArray(list);
-         }
+                list[currentMinIndex] = list[i];
+                list[i] = currentMin;
+            }
+        }
+        printArray(list);
+    }
 
     public static void quickSort(int[] list) {
         quickSort(list, 0, list.length - 1);
@@ -108,7 +113,9 @@ public class Main {
         }
     }
 
-    /** Partition the array list[first..last] */
+    /**
+     * Partition the array list[first..last]
+     */
     private static int partition(int[] list, int first, int last) {
         int pivot = list[first]; // Choose the first element as the pivot
         int low = first + 1; // Index for forward search
@@ -139,9 +146,63 @@ public class Main {
             list[first] = list[high];
             list[high] = pivot;
             return high;
-        }
-        else {
+        } else {
             return first;
         }
     }
+
+    private static void heapSort(int arr[])
+    {
+        int n = arr.length;
+
+        // Build heap (rearrange array)
+        for (int i = n / 2 - 1; i >= 0; i--)
+            heapify(arr, n, i);
+
+        // One by one extract an element from heap
+        for (int i=n-1; i>=0; i--)
+        {
+            // Move current root to end
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+
+            // call max heapify on the reduced heap
+            heapify(arr, i, 0);
+        }
+        printArray(arr);
+    }
+
+    // To heapify a subtree rooted with node i which is
+    // an index in arr[]. n is size of heap
+    private static void heapify(int arr[], int n, int i)
+    {
+        int largest = i; // Initialize largest as root
+        int l = 2*i + 1; // left = 2*i + 1
+        int r = 2*i + 2; // right = 2*i + 2
+
+        // If left child is larger than root
+        if (l < n && arr[l] > arr[largest])
+            largest = l;
+
+        // If right child is larger than largest so far
+        if (r < n && arr[r] > arr[largest])
+            largest = r;
+
+        // If largest is not root
+        if (largest != i)
+        {
+            int swap = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = swap;
+
+            // Recursively heapify the affected sub-tree
+            heapify(arr, n, largest);
+        }
+    }
+
+
+
 }
+
+
